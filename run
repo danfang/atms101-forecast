@@ -1,0 +1,9 @@
+#!/bin/bash
+
+while true
+do
+        npm start
+		echo '-----------------'
+        echo "Completed at $(date)"
+        sleep 7200
+done
