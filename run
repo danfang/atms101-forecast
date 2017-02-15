@@ -1,8 +1,10 @@
 #!/bin/bash
 
+source ./env
+
 while true
 do
-        npm start
+        npm start >> output.log
 		echo '-----------------'
         echo "Completed at $(date)"
         sleep 7200
