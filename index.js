@@ -31,9 +31,8 @@ forecast.get(SEATAC_COORDINATES, function(err, weather) {
 
   var fcst = processWeatherForNthDay(weather, 1);
 
-  console.log('-----------------');
-  console.log('Forecast data:', fcst);
-  console.log('-----------------');
+  console.log('-----------------------------------------');
+  console.log('Forecast submission:', fcst);
 
   fcst.pseudonym = ATMS_101_PSEUDONYM;
   fcst.password = ATMS_101_PASSWORD;
@@ -43,24 +42,25 @@ forecast.get(SEATAC_COORDINATES, function(err, weather) {
       return console.log('Failed to submit forecast:', err);
     }
     if (res.statusCode != 200) {
-      console.log('Failed to submit forecast: HTTP', res.statusCode);
+      console.log('Error submitting forecast: HTTP', res.statusCode);
       console.log(body);
     } else {
-      console.log('Successfully submitted forecast! :)');
+      console.log('Successfully submitted forecast at', new Date().toLocaleString());
     }
+    console.log('-----------------------------------------');
   });
 });
 
 function processWeatherForNthDay(weather, n) {
   var day = weather.daily.data[n];
-  console.log('Forecasting for: ' + new Date(day.time * 1000));
-  console.log('-----------------');
+  console.log('Forecasting for', new Date(day.time * 1000));
+  console.log('-----------------------------------------');
   console.log('Summary:', day.summary);
   var maxt = parseInt(day.temperatureMax);
   var mint = parseInt(day.temperatureMin);
-  console.log('High/Low temps (F):' + maxt + ' / ' + mint);
-  console.log('Precipitation probability:' + day.precipProbability);
-  console.log('Max precipitation intensity:' + day.precipIntensityMax);
+  console.log('High/Low temps (F):', maxt + ' / ' + mint);
+  console.log('Precipitation probability:', day.precipProbability);
+  console.log('Max precipitation intensity:', day.precipIntensityMax);
   var rain;
   if (day.precipProbability <= NO_PRECIP_PROBABILITY) {
     rain = 'N';
@@ -69,7 +69,6 @@ function processWeatherForNthDay(weather, n) {
   } else {
     rain = 'T';
   }
-  console.log('Precipitation:', rain);
   return {
     maxt: maxt,
     mint: mint,
